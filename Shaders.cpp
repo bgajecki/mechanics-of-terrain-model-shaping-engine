@@ -2,9 +2,17 @@
 
 namespace Engine
 {
-    const ShaderInfo& Shaders::getShaderInfo(const ShaderList_t shaderIndex)
+    template <size_t size>
+    Shaders<size>::Shaders(ShaderList shaderList)
+        : shaders(shaderList)
     {
-        ShaderInfo shaderInfo = this->getShaderPathAndType()[shaderIndex];
+
+    }
+
+    template <size_t size>
+    const ShaderInfo& Shaders<size>::getShaderInfo(const ShaderList_t shaderIndex)
+    {
+        ShaderInfo shaderInfo = this->shaders[shaderIndex];
         std::string path = shaderInfo.source;
         std::ifstream file(path);
         std::stringstream stream;

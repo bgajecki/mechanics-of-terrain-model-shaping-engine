@@ -44,17 +44,30 @@ namespace Engine
 	/**
 	* @brief Shaders loading mediator class.
 	*/
+	
+	template <size_t size>
 	class Shaders
 	{
 	public:
+		using ShaderList = std::array<ShaderInfo, size>;
 
-		Shaders() = default;
+		/**
+		* @brief Initialization of shader list (paths and types).
+		* @param shaderList List of the paths to shaders and shaders types.
+		*/
+		Shaders(ShaderList);
+
+		/**
+		* Initialization of shader list is needed.
+		*/
+		Shaders() = delete;
 		~Shaders() = default;
-		
+
 		/**
 		* @brief Only one istance of shaders object.
 		*/
 		Shaders(const Shaders&) = delete;
+
 		/**
 		* @brief Only one istance of shaders object.
 		*/
@@ -68,16 +81,10 @@ namespace Engine
 		const ShaderInfo& getShaderInfo(const ShaderList_t);
 
 	private:
+
 		/**
-		* @brief Returns constat information about shaders. 
-		* @return Constant array of information about shaders, contains path to file and type.
+		* @brief List of the shaders contains paths and types.
 		*/
-		constexpr auto getShaderPathAndType()
-		{
-			auto shaders = std::to_array<ShaderInfo>({
-				{"./Shaders/vertexShader", GL_VERTEX_SHADER}
-				});
-			return shaders;
-		}
+		ShaderList shaders;
 	};
 }
