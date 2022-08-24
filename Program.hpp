@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 #include <vector>
 #include <memory>
 #include "Shader.hpp"
@@ -21,7 +20,7 @@ namespace Engine
 	/**
 	* @brief Vector of shared pointers to shader objects.
 	*/
-	typedef std::vector<ShaderPointer> ShadersVector;
+	typedef std::vector<ShaderPointer> ShaderVector;
 
 	/**
 	* @brief A program class that stores shaders and manage them.
@@ -52,7 +51,7 @@ namespace Engine
 		/**
 		* Link program.
 		*/
-		void link(const ShaderInfo&);
+		void link(const ShaderData&);
 
 		/**
 		* @brief Delete program if already exist and initialize fields of the class.
@@ -64,7 +63,14 @@ namespace Engine
 		* @param shaderInfo Contains shader code and shader type.
 		* @return Pointer to shader.
 		*/
-		Shader* addShader(const ShaderInfo&);
+		Shader* addShader(const ShaderData&);
+
+		/**
+		* @brief Add a new existing shader in program.
+		* @param  shader Pointer to existing shader.
+		* @return Pointer to shader.
+		*/
+		Shader* addShader(Shader*);
 
 		/**
 		* @brief Delete shader by pointer.
@@ -110,6 +116,6 @@ namespace Engine
 		/**
 		* @brief Vector of shaders. Contains all shaders used by program.
 		*/
-		ShadersVector shaders;
+		ShaderVector shaders;
 	};
 }

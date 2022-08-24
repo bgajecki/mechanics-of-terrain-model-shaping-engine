@@ -6,9 +6,9 @@ namespace Engine
 	{
 	}
 
-	Shader::Shader(const ShaderInfo& shaderInfo) : Shader()
+	Shader::Shader(const ShaderData& shaderInfo) : Shader()
 	{
-		this->Compile(shaderInfo);
+		this->compile(shaderInfo);
 	}
 
 	Shader::Shader(Shader&& shader)
@@ -23,7 +23,7 @@ namespace Engine
 			glDeleteShader(this->id);
 	}
 
-	void Shader::compile(const ShaderInfo& shaderInfo)
+	void Shader::compile(const ShaderData& shaderInfo)
 	{
 		this->type = shaderInfo.type;
 		this->id = glCreateShader(this->type);

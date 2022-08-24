@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include <GL/glew.h>
-#include "Shaders.hpp"
+#include <vector>
+#include "ShaderData.hpp"
 
 namespace Engine
 {
-	typedef GLuint ShaderId;
+	using ShaderId = GLuint;
 	/**
 	* A shader class that store shader id and type.
 	*/
@@ -21,7 +21,7 @@ namespace Engine
 		* Initialize fields of the class and start shader compilation.
 		* @param shaderInfo Contains shader code and shader type.
 		*/
-		Shader(const ShaderInfo&);
+		Shader(const ShaderData&);
 
 		/**
 		* Shader can't be copied, because it's creating problem with assignment.
@@ -42,7 +42,7 @@ namespace Engine
 		* Compile shader.
 		* @param shaderInfo Contains shader code and shader type.
 		*/
-		void compile(const ShaderInfo&);
+		void compile(const ShaderData&);
 
 		/**
 		* Delete shader if already exist and initialize fields of the class.

@@ -5,7 +5,7 @@ namespace Engine
 	Program::Program() : id(0u)
 	{
 		this->id = glCreateProgram();
-		this->shaders.assign(2u); // Minimal size
+		this->shaders.reserve(2u); // Minimal size
 	}
 
 
@@ -21,7 +21,7 @@ namespace Engine
 			glDeleteProgram(this->id);
 	}
 
-	void Program::link(const ShaderInfo& shaderInfo)
+	void Program::link(const ShaderData& shaderInfo)
 	{
 		this->attachShaders();
 		glLinkProgram(this->id);
@@ -39,17 +39,17 @@ namespace Engine
 		}
 	}
 
-	Shader* Program::addShader(const ShaderInfo& shaderInfo)
+	Shader* Program::addShader(const ShaderData& shaderInfo)
 	{
 		this->shaders.push_back(std::make_shared<Shader>(shaderInfo));
-		auto shaderPointer = this->shaders.back();
+		auto shaderPointer = this->shaders.back().get();
 		return shaderPointer;
 	}
 
 	Shader* Program::addShader(Shader* shader)
 	{
 		if (shader->getId() == 0u)
-			return std::nullptr;
+			return nullptr;
 
 		this->shaders.push_back(std::make_shared<Shader>(shader));
 		auto shaderPointer = this->shaders.back().get();
@@ -59,14 +59,15 @@ namespace Engine
 
 	void Program::deleteShader(Shader* shaderPointer)
 	{
-		/*
 		for(auto shader = this->shaders.begin(); shader != this->shaders.end();)
 			if(shaderPointer == shader->get())
 				this->shaders.erase(shader);
-		*/
+
+		/*
 		for (ShadersVector::iterator shader : this->shaders)
 			if (shaderPointer == shader->get())
 				this->shaders.erase(shader);
+		*/
 	}
 
 	void Program::deleteShaders()
@@ -87,27 +88,27 @@ namespace Engine
 	void Program::attachShaders()
 	{
 		for (auto shader : this->shaders)
-			glAttachShader(shader->getId());
+			glAttachShader(this->id, shader->getId());
 	}
 
 	void Program::detachShaders()
 	{
 		for (auto shader : this->shaders)
-			glDetachShader(shader->getId());
+			glDetachShader(this->id, shader->getId());
 	}
 
 	void Program::checkLinkingStatus()
 	{
 		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+		glGetProgramiv(this->id, GL_LINK_STATUS, &isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(this->id, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> errorLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &errorLog[0]);
+			glGetProgramInfoLog(this->id, maxLength, &maxLength, &errorLog[0]);
 
 			// Print the error log in DEBUG mode
 			DEBUG(std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, " "));)

@@ -1,7 +1,6 @@
 ﻿#pragma once
 
-
-#include <vector>
+#include <array>
 #include "Program.hpp"
 
 
@@ -15,7 +14,7 @@ namespace Engine
 	/**
 	* @brief Vector of unique pointers to program objects.
 	*/
-	typedef std::vector<ProgramPointer> ProgramsVector;
+	typedef std::vector<ProgramPointer> ProgramVector;
 
 	/**
 	* @brief A shader manager class that manages shaders in the stage.
@@ -61,6 +60,6 @@ namespace Engine
 		/**
 		* @brief Vector of programs. Contains all programs used by stage.
 		*/	
-		ProgramsVector programs;
+		ProgramVector programs;
 	};
 }
