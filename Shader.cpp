@@ -2,7 +2,8 @@
 
 namespace Engine
 {
-	Shader::Shader() : id(0u), type(0u)
+	Shader::Shader()
+		: id(0u), type(0u)
 	{
 	}
 

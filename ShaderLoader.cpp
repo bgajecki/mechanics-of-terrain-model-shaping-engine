@@ -2,22 +2,28 @@
 
 namespace Engine
 {
-    const ShaderList::iterator ShaderLoader::addShader(const ShaderData& shader)
+    ShaderLoader::ShaderLoader(const ShaderList& list)
+        : shaders(list)
+    {
+
+    }
+
+    const size_t ShaderLoader::addShader(const ShaderData& shader)
     {
         this->shaders.push_back(shader);
         size_t index = this->shaders.size() - 1u;
         return index;
     }
 
-    void ShaderLoader::deleteShader(size_t iterator)
+    void ShaderLoader::deleteShader(const size_t index)
     {
-        this->shaders.erase(this->shaders.begin() + iterator);
+        this->shaders.erase(this->shaders.begin() + index);
     }
 
-    const ShaderData& ShaderLoader::getShaderData(const size_t index)
+    ShaderDataPointer ShaderLoader::getShaderData(const size_t index)
     {
-        ShaderData data = this->shaders[index];
-        std::string path = data.source;
+        ShaderDataPointer data = std::make_unique<ShaderData>(this->shaders[index]);
+        std::string path = data->source;
         std::ifstream file(path);
         std::stringstream stream;
 
@@ -31,7 +37,7 @@ namespace Engine
             stream << file.rdbuf();
         }
 
-        data.source = stream.str().c_str();
+        data->source = stream.str().c_str();
         return data;
     }
 }

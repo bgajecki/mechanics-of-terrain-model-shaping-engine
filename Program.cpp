@@ -39,35 +39,25 @@ namespace Engine
 		}
 	}
 
-	Shader* Program::addShader(const ShaderData& shaderInfo)
+	ShaderWeakPointer Program::addShader(const ShaderData& shaderInfo)
 	{
 		this->shaders.push_back(std::make_shared<Shader>(shaderInfo));
-		auto shaderPointer = this->shaders.back().get();
-		return shaderPointer;
+		ShaderWeakPointer shader = this->shaders.back();
+		return shader;
 	}
 
-	Shader* Program::addShader(Shader* shader)
+	ShaderWeakPointer Program::addShader(ShaderWeakPointer shader)
 	{
-		if (shader->getId() == 0u)
-			return nullptr;
-
-		this->shaders.push_back(std::make_shared<Shader>(shader));
-		auto shaderPointer = this->shaders.back().get();
-
-		return shaderPointer;
+		if (ShaderSharedPointer shaderSharedPointer = shader.lock())
+			this->shaders.push_back(std::move(shaderSharedPointer));
+		return shader;
 	}
 
-	void Program::deleteShader(Shader* shaderPointer)
+	void Program::deleteShader(ShaderWeakPointer shader)
 	{
-		for(auto shader = this->shaders.begin(); shader != this->shaders.end();)
-			if(shaderPointer == shader->get())
-				this->shaders.erase(shader);
-
-		/*
-		for (ShadersVector::iterator shader : this->shaders)
-			if (shaderPointer == shader->get())
-				this->shaders.erase(shader);
-		*/
+		for(auto i = this->shaders.begin(); i != this->shaders.end();)
+			if(*i == shader.lock())
+				this->shaders.erase(i);
 	}
 
 	void Program::deleteShaders()
@@ -87,13 +77,14 @@ namespace Engine
 
 	void Program::attachShaders()
 	{
-		for (auto shader : this->shaders)
-			glAttachShader(this->id, shader->getId());
+		for (auto& shader : this->shaders)
+			if(shader->getId() != 0u)
+				glAttachShader(this->id, shader->getId());
 	}
 
 	void Program::detachShaders()
 	{
-		for (auto shader : this->shaders)
+		for (auto& shader : this->shaders)
 			glDetachShader(this->id, shader->getId());
 	}
 

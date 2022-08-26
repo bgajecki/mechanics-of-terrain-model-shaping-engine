@@ -10,17 +10,22 @@ namespace Engine
 	/**
 	* @brief Program ID type.
 	*/
-	typedef GLuint ProgramId;
+	using ProgramId = GLuint;
 
 	/**
 	* @brief Shared pointer to shader object.
 	*/
-	typedef std::shared_ptr<Shader> ShaderPointer;
+	using ShaderSharedPointer = std::shared_ptr<Shader>;
+
+	/**
+	* @brief Weak pointer to shader object.
+	*/
+	using ShaderWeakPointer = std::weak_ptr<Shader>;
 
 	/**
 	* @brief Vector of shared pointers to shader objects.
 	*/
-	typedef std::vector<ShaderPointer> ShaderVector;
+	using ShaderVector = std::vector<ShaderSharedPointer>;
 
 	/**
 	* @brief A program class that stores shaders and manage them.
@@ -63,20 +68,20 @@ namespace Engine
 		* @param shaderInfo Contains shader code and shader type.
 		* @return Pointer to shader.
 		*/
-		Shader* addShader(const ShaderData&);
+		ShaderWeakPointer addShader(const ShaderData&);
 
 		/**
 		* @brief Add a new existing shader in program.
 		* @param  shader Pointer to existing shader.
 		* @return Pointer to shader.
 		*/
-		Shader* addShader(Shader*);
+		ShaderWeakPointer addShader(ShaderWeakPointer);
 
 		/**
 		* @brief Delete shader by pointer.
 		* @param Pointer to shader.
 		*/
-		void deleteShader(Shader*);
+		void deleteShader(ShaderWeakPointer);
 
 		/**
 		* @brief Delete all shaders.
