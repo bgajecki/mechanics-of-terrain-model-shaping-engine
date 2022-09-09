@@ -1,6 +1,4 @@
 ﻿#include "ShaderManager.hpp"
-#include "ShaderManager.hpp"
-#include "ShaderManager.hpp"
 
 namespace Engine
 {
