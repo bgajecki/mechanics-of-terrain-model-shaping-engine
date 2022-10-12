@@ -1,29 +1,39 @@
 #include "Mesh.hpp"
 
-namespace Engine
+namespace engine
 {
-    Mesh::Mesh()
+    Mesh::Mesh() :
+        areBuffersSetup(false), verticesSize(0u), indicesSize(0u), texturesSize(0u)
     {
-        glGenBuffers(1, &this->vbo);
-        glGenBuffers(1, &this->ebo);
+        glGenVertexArrays(1, &this->vertexArrayObject);
+        glGenBuffers(1, &this->vertexBufferObject);
+        glGenBuffers(1, &this->elementBufferObject);
     }
 
-	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures);
-        : Mesh(), vertices(vertices), indices(indices), textures(textures)
-	{
+	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures)
+        : areBuffersSetup(false), verticesSize(0u), indicesSize(0u), texturesSize(0u), vertices(vertices), indices(indices), textures(textures)
+    {
+        glGenVertexArrays(1, &this->vertexArrayObject);
+        glGenBuffers(1, &this->vertexBufferObject);
+        glGenBuffers(1, &this->elementBufferObject);
 	}
 
     Mesh::~Mesh()
     {
-        glDeleteBuffers(1, &this->vbo);
-        glDeleteBuffers(1, &this->ebo);
+        glDeleteBuffers(1, &this->vertexBufferObject);
+        glDeleteBuffers(1, &this->elementBufferObject);
+        glDeleteVertexArrays(1, &this->vertexArrayObject);
     }
 
-    void Mesh::Draw()
+    void Mesh::draw()
     {
+        bool areDataNotCorrect = this->checkData();
+        if (areDataNotCorrect)
+            return;
+
         //unsigned int diffuseNr = 1;
         //unsigned int specularNr = 1;
-        for (size_t i = 0; i < textures.size(); i++)
+        for (size_t i = 0; i < this->textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
             // retrieve texture number (the N in diffuse_textureN)
@@ -37,34 +47,72 @@ namespace Engine
 
             shader.setInt(("material." + name + number).c_str(), i);
             */
-            glBindTexture(GL_TEXTURE_2D, textures[i]);
+            glBindTexture(GL_TEXTURE_2D, this->textures[i]);
         }
         glActiveTexture(GL_TEXTURE0);
 
-        // draw mesh
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        // Draw mesh
+        glBindVertexArray(this->vertexArrayObject);
+        glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 
-    virtual void Mesh::setupBuffers()
+    bool inline Mesh::checkData()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        bool areDataNotCorrect = this->verticesSize != this->vertices.size() ||
+            this->indicesSize != this->indices.size() ||
+            this->texturesSize != this->textures.size() ||
+            this->areBuffersSetup == false;
+        if (areDataNotCorrect)
+        {
+            this->areBuffersSetup = this->setupBuffers();
+            areDataNotCorrect = this->areBuffersSetup ? true : false;
+        }
+        return areDataNotCorrect;
+    }
 
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+    inline void Mesh::resetDataProtection()
+    {
+        this->verticesSize = this->vertices.size();
+        this->indicesSize = this->indices.size();
+        this->texturesSize = this->textures.size();
+    }
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
-            indices.data(), GL_STATIC_DRAW);
+    bool Mesh::setupBuffers()
+    {
+        if (this->vertices.empty()
+            && this->indices.empty()
+            && this->textures.empty())
+            return false;
 
-        // vertex positions
+        this->resetDataProtection();
+
+        // VAO
+        glBindVertexArray(this->vertexArrayObject);
+
+        // VBO
+        glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferObject);
+        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex),
+            vertices.data(), GL_STATIC_DRAW);
+
+        // EBO
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferObject);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(this->indices[0]),
+            this->indices.data(), GL_STATIC_DRAW);
+
+        // Vertex positions
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-        // vertex normals
+        // Vertex normals
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-        // vertex texture coords
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+        // Vertex texture coordinates
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
+
+        glBindVertexArray(0);
+
+        return true;
     }
+
 }

@@ -3,13 +3,22 @@
 #include <vector>
 
 #include "BasicTypes.hpp"
+#include "Texture.hpp"
+#include "Program.hpp"
 
-namespace Engine
+namespace engine
 {
     class Mesh
     {
     public:
+        /**
+        *
+        */
         Mesh();
+
+        /**
+        *
+        */
         ~Mesh();
 
         /**
@@ -20,24 +29,79 @@ namespace Engine
         /**
         * Draw mesh
         */
-        void Draw();
+        virtual void draw();
 
+        /**
+        * Draw mesh
+        */
+        std::vector<Vertex> vertices;
+        /**
+        * Draw mesh
+        */
+        std::vector<unsigned int> indices;
+
+        /**
+        * Draw mesh
+        */
+        std::vector<Texture> textures;
+
+        /**
+        * Draw mesh
+        */
+        Program program;
+
+    protected:
+
+        /**
+        * Draw mesh
+        */
+        virtual bool setupBuffers();
+
+        /**
+        * Draw mesh
+        */
+        virtual bool inline checkData();
+
+        /**
+        * Draw mesh
+        */
+        virtual void inline resetDataProtection();
+
+        /**
+        * Draw mesh
+        */
+        bool areBuffersSetup;
 
 
         /**
-        *
+        * Draw mesh
         */
-        
+        GLuint vertexArrayObject;
 
-    private:
+        /**
+        * Draw mesh
+        */
+        GLuint vertexBufferObject;
 
-        virtual void setupBuffers();
+        /**
+        * Draw mesh
+        */
+        GLuint elementBufferObject;
 
-        std::vector<Vertex> vertices;
-        std::vector<unsigned int> indices;
-        std::vector<TextureType> textures;
+        /**
+        * Draw mesh
+        */
+        size_t verticesSize;
 
-        GLuint vbo, ebo;
+        /**
+        * Draw mesh
+        */
+        size_t indicesSize;
+
+        /**
+        * Draw mesh
+        */
+        size_t texturesSize;
     };
 
 }

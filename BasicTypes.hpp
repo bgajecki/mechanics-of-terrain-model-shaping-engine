@@ -3,27 +3,25 @@
 #include <glm/glm.hpp> 
 #include <GL/glew.h> 
 
-namespace Engine
+namespace engine
 {
-	using Position_t = glm::vec3;
-	using Normal_t = glm::vec3;
-	using TextureCoordinates_t = glm::vec2;
+	using Position = glm::vec3;
+	using Normal = glm::vec3;
+	using TextureCoordinates = glm::vec2;
 
-	using Direction_t = glm::vec4;
-
-	using TextureType = GLuint;
+	using Matrix = glm::mat4;
 
 	struct Vertex
 	{
-		Position_t position;
-		Normal_t normal;
-		TextureCoordinates_t textureCoordinates;
+		Position position;
+		Normal normal;
+		TextureCoordinates textureCoordinates;
 	};
 
 	struct Camera
 	{
-		Position_t position;
-		Direction_t direction;
+		Position eye, center, up;
+		rotateCamera();
 	};
 
 }

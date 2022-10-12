@@ -1,13 +1,29 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 
-project ("Engine")
+project ("engine")
 
-aux_source_directory(${PROJECT_SOURCE_DIR} SRCS)
+aux_source_directory(${PROJECT_SOURCE_DIR} ENGINE)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ProgramManager PROGRAM_MANAGER)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ProgramManager/Program PROGRAM)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ShaderManager SHADER_MANAGER)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ShaderManager/Shader SHADER)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/Scene SCENE)
+
+set(SRCS
+	${ENGINE}
+	${PROGRAM_MANAGER}
+	${PROGRAM}
+	${SHADER_MANAGER}
+	${SHADER}
+	${SCENE}
+)
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})
 
-set(INCLUDES PRIVATE
+set(INCLUDES PUBLIC
 	${PROJECT_SOURCE_DIR}
+	${PROJECT_SOURCE_DIR}/implementation/ShaderManager/Shader
+	${PROJECT_SOURCE_DIR}/implementation/ProgramManager/Program
 	${CMAKE_SOURCE_DIR}/lib/freeglut/include
 	${CMAKE_SOURCE_DIR}/lib/glew/include
 )
@@ -29,6 +45,7 @@ target_link_libraries (${PROJECT_NAME}
 	opengl32
 	glu32
 	gdi32
+	glm
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

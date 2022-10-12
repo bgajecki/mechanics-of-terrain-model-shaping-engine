@@ -1,14 +1,17 @@
 #include "Scene.hpp"
+#include "Scene.hpp"
 
-namespace Engine
+namespace engine
 {
-    Scene::Scene()
+    Scene::Scene(SceneManager& sceneManager)
+        : sceneManager(sceneManager), projection(1), view(1), model(1), camera({ { 0,0,0 }, { 0,0,0 }, { 0,0,0 } })
     {
-        glGenVertexArrays(1, &this->vertexArrayObject);
     }
 
-    Scene::~Scene()
+    void Scene::draw(const Program& program)
     {
-        glDeleteVertexArrays(1, &this->vertexArrayObject);
+        for (auto& mesh : this->meshes)
+            if (mesh->program == program)
+                mesh->draw();
     }
 }
