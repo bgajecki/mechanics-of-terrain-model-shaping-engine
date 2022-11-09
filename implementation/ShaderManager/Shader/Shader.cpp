@@ -50,7 +50,7 @@ namespace engine
 		const ShaderSource Shader::getShaderSource(const ShaderSource& path)
 		{
 			std::ifstream file(path);
-			std::stringstream stream;
+			std::ostringstream stream;
 
 			if (!file.is_open())
 			{
@@ -60,8 +60,8 @@ namespace engine
 			else
 			{
 				stream << file.rdbuf();
+				file.close();
 			}
-
 			ShaderSource source = stream.str();
 			return source;
 		}
@@ -81,7 +81,7 @@ namespace engine
 				glGetShaderInfoLog(this->id, maxLength, &maxLength, &errorLog[0]);
 
 				// Print the error log in DEBUG mode
-				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, " "));
+				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, ""));
 
 				this->clear(); // Don't leak the shader.
 			}

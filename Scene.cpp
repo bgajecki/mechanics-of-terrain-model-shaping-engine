@@ -14,4 +14,9 @@ namespace engine
             if (mesh->program == program)
                 mesh->draw();
     }
+    
+    void Scene::updateMvpMatrix()
+    {
+        this->mvp = this->projection * this->view * this->model;
+    }
 }

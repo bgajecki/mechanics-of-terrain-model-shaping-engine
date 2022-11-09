@@ -8,6 +8,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ProgramManager/Program
 aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ShaderManager SHADER_MANAGER)
 aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/ShaderManager/Shader SHADER)
 aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/Scene SCENE)
+aux_source_directory(${PROJECT_SOURCE_DIR}/implementation/Object OBJECT)
 
 set(SRCS
 	${ENGINE}
@@ -16,6 +17,8 @@ set(SRCS
 	${SHADER_MANAGER}
 	${SHADER}
 	${SCENE}
+    ${OBJECT}
+	${CMAKE_SOURCE_DIR}/lib/stb/stb_image.c
 )
 
 add_library(${PROJECT_NAME} STATIC ${SRCS})
@@ -26,6 +29,7 @@ set(INCLUDES PUBLIC
 	${PROJECT_SOURCE_DIR}/implementation/ProgramManager/Program
 	${CMAKE_SOURCE_DIR}/lib/freeglut/include
 	${CMAKE_SOURCE_DIR}/lib/glew/include
+	${CMAKE_SOURCE_DIR}/lib/stb
 )
 
 target_include_directories (${PROJECT_NAME} PRIVATE ${INCLUDES})

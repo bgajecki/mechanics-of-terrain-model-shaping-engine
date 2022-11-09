@@ -2,13 +2,14 @@
 
 #include <vector>
 
+#include "implementation/Object/Object.hpp"
 #include "BasicTypes.hpp"
 #include "Texture.hpp"
 #include "Program.hpp"
 
 namespace engine
 {
-    class Mesh
+    class Mesh : public implementation::Object
     {
     public:
         /**
@@ -29,26 +30,27 @@ namespace engine
         /**
         * Draw mesh
         */
-        virtual void draw();
+        virtual void draw() override;
+
+        /**
+        * Draw mesh
+        */
+        bool loadObj(const std::string&);
 
         /**
         * Draw mesh
         */
         std::vector<Vertex> vertices;
+        
         /**
         * Draw mesh
         */
-        std::vector<unsigned int> indices;
+        std::vector<Index> indices;
 
         /**
         * Draw mesh
         */
         std::vector<Texture> textures;
-
-        /**
-        * Draw mesh
-        */
-        Program program;
 
     protected:
 

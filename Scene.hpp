@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "Mesh.hpp"
+#include "implementation/Object/Object.hpp"
+#include "BasicTypes.hpp"
 #include "SceneManager.hpp"
 
 namespace engine
@@ -11,7 +12,7 @@ namespace engine
         /**
         * @brief Unique pointer to mesh object.
         */
-        using MeshPointer = std::unique_ptr<Mesh>;
+        using MeshPointer = std::unique_ptr<implementation::Object>;
 
         /**
         * @brief Vector of unique pointers to meshes objects.
@@ -29,7 +30,7 @@ namespace engine
         * Draw mesh
         */
         template<typename T, typename... RestOfParameters>
-        T* createMesh(RestOfParameters... restOfParameters)
+        T* createObject(RestOfParameters... restOfParameters)
         {
             this->meshes.push_back(std::make_unique<T>(restOfParameters...));
             return dynamic_cast<T*>(this->meshes.back().get());
@@ -41,6 +42,9 @@ namespace engine
         virtual void draw(const Program& program);
 
     protected:
+
+        void updateMvpMatrix();
+
         /**
         * Draw mesh
         */

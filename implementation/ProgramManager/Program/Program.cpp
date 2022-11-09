@@ -91,7 +91,7 @@ namespace engine
 				glGetProgramInfoLog(this->id, maxLength, &maxLength, &errorLog[0]);
 
 				// Print the error log in DEBUG mode
-				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, " "));
+				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, ""));
 			}
 		}
 	}
