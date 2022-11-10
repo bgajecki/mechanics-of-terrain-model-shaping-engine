@@ -2,8 +2,7 @@
 
 namespace engine
 {
-    Mesh::Mesh() :
-        areBuffersSetup(false), verticesSize(0u), indicesSize(0u), texturesSize(0u)
+    Mesh::Mesh()
     {
         glGenVertexArrays(1, &this->vertexArrayObject);
         glGenBuffers(1, &this->vertexBufferObject);
@@ -11,7 +10,7 @@ namespace engine
     }
 
 	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures)
-        : areBuffersSetup(false), verticesSize(0u), indicesSize(0u), texturesSize(0u), vertices(vertices), indices(indices), textures(textures)
+        : vertices(vertices), indices(indices), textures(textures)
     {
         glGenVertexArrays(1, &this->vertexArrayObject);
         glGenBuffers(1, &this->vertexBufferObject);
@@ -27,36 +26,36 @@ namespace engine
 
     void Mesh::draw()
     {
-        bool areDataNotCorrect = this->checkData();
-        if (areDataNotCorrect)
-            return;
-
-        //unsigned int diffuseNr = 1;
-        //unsigned int specularNr = 1;
-        for (size_t i = 0; i < this->textures.size(); i++)
+        bool areBuffersSetup = this->setupBuffers();
+        if (areBuffersSetup)
         {
-            //glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-            // retrieve texture number (the N in diffuse_textureN)
-            /*
-            string number;
-            string name = textures[i].type;
-            if (name == "texture_diffuse")
-                number = std::to_string(diffuseNr++);
-            else if (name == "texture_specular")
-                number = std::to_string(specularNr++);
+            //unsigned int diffuseNr = 1;
+            //unsigned int specularNr = 1;
+            for (size_t i = 0; i < this->textures.size(); i++)
+            {
+                //glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+                // retrieve texture number (the N in diffuse_textureN)
+                /*
+                string number;
+                string name = textures[i].type;
+                if (name == "texture_diffuse")
+                    number = std::to_string(diffuseNr++);
+                else if (name == "texture_specular")
+                    number = std::to_string(specularNr++);
 
-            shader.setInt(("material." + name + number).c_str(), i);
-            */
-            //glBindTexture(GL_TEXTURE_2D, this->textures[i]);
-            this->textures[i].bind(i);
+                shader.setInt(("material." + name + number).c_str(), i);
+                */
+                //glBindTexture(GL_TEXTURE_2D, this->textures[i]);
+                this->textures[i].bind(i);
+            }
+            glActiveTexture(GL_TEXTURE0);
+
+            // Draw mesh
+            glBindVertexArray(this->vertexArrayObject);
+            glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+            //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+            glBindVertexArray(0);
         }
-        glActiveTexture(GL_TEXTURE0);
-        
-        // Draw mesh
-        glBindVertexArray(this->vertexArrayObject);
-        glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
-        //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
-        glBindVertexArray(0);
     }
 
     bool Mesh::loadObj(const std::string& path)
@@ -152,36 +151,11 @@ namespace engine
         }
     }
 
-    bool inline Mesh::checkData()
-    {
-        bool areDataNotCorrect = this->verticesSize != this->vertices.size() ||
-            this->indicesSize != this->indices.size() ||
-            //this->texturesSize != this->textures.size() ||
-            this->areBuffersSetup == false;
-        if (areDataNotCorrect)
-        {
-            this->areBuffersSetup = this->setupBuffers();
-            areDataNotCorrect = this->areBuffersSetup ? true : false;
-        }
-        return areDataNotCorrect;
-    }
-
-    inline void Mesh::resetDataProtection()
-    {
-        this->verticesSize = this->vertices.size();
-        this->indicesSize = this->indices.size();
-        this->texturesSize = this->textures.size();
-    }
-
     bool Mesh::setupBuffers()
     {
         if (this->vertices.empty()
-            && this->indices.empty()
-            //&& this->textures.empty()
-            )
+            && this->indices.empty())
             return false;
-
-        this->resetDataProtection();
 
         // VAO
         glBindVertexArray(this->vertexArrayObject);

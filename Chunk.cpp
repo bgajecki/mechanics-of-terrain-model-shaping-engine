@@ -114,46 +114,25 @@ namespace engine
 
     void Chunk::draw()
     {
-        bool areDataNotCorrect = this->checkData();
-        if (areDataNotCorrect)
-            return;
-
-        // Draw mesh
-        glBindVertexArray(this->vertexArrayObject);
-        glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
-        //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
-        glBindVertexArray(0);
-    }
-
-    bool inline Chunk::checkData()
-    {
-        bool areDataNotCorrect = this->verticesSize != this->vertices.size() ||
-            this->indicesSize != this->indices.size() ||
-            //this->texturesSize != this->textures.size() ||
-            this->areBuffersSetup == false;
-        if (areDataNotCorrect)
+        bool areBuffersSetup = this->setupBuffers();
+        if (areBuffersSetup)
         {
-            this->areBuffersSetup = this->setupBuffers();
-            areDataNotCorrect = this->areBuffersSetup ? true : false;
+
+            // Draw mesh
+            glBindVertexArray(this->vertexArrayObject);
+            glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+            //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+            glBindVertexArray(0);
         }
-        return areDataNotCorrect;
     }
 
-    inline void Chunk::resetDataProtection()
-    {
-        this->verticesSize = this->vertices.size();
-        this->indicesSize = this->indices.size();
-    }
 
     bool Chunk::setupBuffers()
     {
         if (this->vertices.empty()
             && this->indices.empty()
-            //&& this->textures.empty()
             )
             return false;
-
-        this->resetDataProtection();
 
         // VAO
         glBindVertexArray(this->vertexArrayObject);

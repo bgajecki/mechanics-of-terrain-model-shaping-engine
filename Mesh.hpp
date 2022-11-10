@@ -62,22 +62,6 @@ namespace engine
         /**
         * Draw mesh
         */
-        virtual bool inline checkData();
-
-        /**
-        * Draw mesh
-        */
-        virtual void inline resetDataProtection();
-
-        /**
-        * Draw mesh
-        */
-        bool areBuffersSetup;
-
-
-        /**
-        * Draw mesh
-        */
         GLuint vertexArrayObject;
 
         /**
@@ -90,20 +74,6 @@ namespace engine
         */
         GLuint elementBufferObject;
 
-        /**
-        * Draw mesh
-        */
-        size_t verticesSize;
-
-        /**
-        * Draw mesh
-        */
-        size_t indicesSize;
-
-        /**
-        * Draw mesh
-        */
-        size_t texturesSize;
     };
 
 }

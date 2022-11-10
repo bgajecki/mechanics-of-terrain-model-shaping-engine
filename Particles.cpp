@@ -18,13 +18,15 @@ namespace engine
 
     void Particles::draw()
     {
-        this->setupBuffers();
-        
-        // Draw mesh
-        glBindVertexArray(this->vertexArrayObject);
-        //glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
-        glDrawArrays(GL_POINTS, 0, this->particles.size());
-        glBindVertexArray(0);
+        bool areBuffersSetup = this->setupBuffers();
+        if (areBuffersSetup)
+        {
+            // Draw mesh
+            glBindVertexArray(this->vertexArrayObject);
+            //glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawArrays(GL_POINTS, 0, this->particles.size());
+            glBindVertexArray(0);
+        }
     }
 
 
@@ -32,9 +34,20 @@ namespace engine
     {
         this->vertices.clear();
 
+        bool isEmpty = true;
         for (auto& particle : this->particles)
-            if(particle.lifespan > 0.0f)
+        {
+            if (particle.lifespan > 0.0f)
+            {
                 this->vertices.push_back(particle.position);
+                isEmpty = false;
+            }
+        }
+
+        if (isEmpty)
+        {
+            return false;
+        }
 
         // VAO
         glBindVertexArray(this->vertexArrayObject);

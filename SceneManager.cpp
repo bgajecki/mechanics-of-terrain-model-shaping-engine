@@ -12,7 +12,6 @@ namespace engine
 		if (this->currentScene == nullptr)
 			return;
 
-		glClear(GL_COLOR_BUFFER_BIT);
 		for (auto i = this->programs.begin(); i != this->programs.end(); i++)
 		{	
 			i->use();
