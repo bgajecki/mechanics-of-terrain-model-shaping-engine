@@ -46,6 +46,4 @@ namespace engine
 		Normal normal;
 		Color color;
 	};
-
-	using Voxel = bool;
 }

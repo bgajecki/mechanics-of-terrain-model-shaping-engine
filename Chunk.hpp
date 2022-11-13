@@ -4,6 +4,7 @@
 #include "implementation/Object/Object.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "BasicTypes.hpp"
+#include "Voxel.hpp"
 
 namespace engine
 {
@@ -16,37 +17,26 @@ namespace engine
 
         Chunk();
         ~Chunk();
-        void createCube(const Position);
+        
+        virtual void update(float);
         virtual void draw() override;
-        static const unsigned CHUNK_SIZE = 16;
-        float RENDER_SIZE;
-        Color color;
-    private:
-        void generateVertices(const Position&);
-        void addCubeFace(const glm::vec3&, const glm::vec3&, const glm::vec3&, const glm::vec3&, const glm::vec3&);
+        void refresh();
+        void resize(size_t);
+        unsigned chunkSize;
+        float renderSize;
+        Position position;
+    protected:
+
+        void generateVertices(const Position&, const Color&);
+        void addVoxelFace(const Position&, const Position&, const Position&, const Position&, const Normal&, const Color&);
         VertexVector vertices;
         VoxelVector voxels;
         IndexVector indices;
 
         /**
-* Draw mesh
-*/
+        * Draw mesh
+        */
         virtual bool setupBuffers();
-
-        /**
-        * Draw mesh
-        */
-        virtual bool inline checkData();
-
-        /**
-        * Draw mesh
-        */
-        virtual void inline resetDataProtection();
-
-        /**
-        * Draw mesh
-        */
-        bool areBuffersSetup;
 
         /**
         * Draw mesh
@@ -62,18 +52,6 @@ namespace engine
         * Draw mesh
         */
         GLuint elementBufferObject;
-
-        /**
-* Draw mesh
-*/
-        size_t verticesSize;
-
-        /**
-* Draw mesh
-*/
-        size_t indicesSize;
-        
-        Position position;
 
     };
 }
