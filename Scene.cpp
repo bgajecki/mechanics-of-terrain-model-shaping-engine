@@ -1,22 +1,23 @@
 #include "Scene.hpp"
-#include "Scene.hpp"
 
 namespace engine
 {
     Scene::Scene(SceneManager& sceneManager)
-        : sceneManager(sceneManager), projection(1), view(1), model(1), camera({ { 0,0,0 }, { 0,0,0 }, { 0,0,0 } })
+        : sceneManager(sceneManager), projection(1), view(1), model(1), camera()
     {
     }
 
     void Scene::draw(const Program& program)
     {
-        for (auto& mesh : this->meshes)
-            if (mesh->program == program)
-                mesh->draw();
+        for (auto& object : this->objects)
+        {
+            if (object->getProgram() == program)
+            {
+                this->model = object->getModelMatrix();
+                program->loadUniforms();
+                object->draw();
+            }
+        }
     }
-    
-    void Scene::updateMvpMatrix()
-    {
-        this->mvp = this->projection * this->view * this->model;
-    }
+  
 }

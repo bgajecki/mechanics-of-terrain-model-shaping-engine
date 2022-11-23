@@ -1,6 +1,7 @@
 #pragma once
 
-#include <glm/glm.hpp> 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <GL/glew.h> 
 #include <array>
 
@@ -19,11 +20,18 @@ namespace engine
 
 	using Matrix = glm::mat4;
 
+	using Angle = float;
+
+	using Direction = glm::vec3;
+
+	using Size = glm::vec2;
+
+	template<typename T>
 	struct Vertex
 	{
 		Position position;
 		Normal normal;
-		TextureCoordinate textureCoordinate;
+		T attribute;
 	};
 
 	struct Particle
@@ -32,18 +40,5 @@ namespace engine
 		Velocity velocity;
 		Acceleration acceleration;
 		LifeSpan lifespan;
-	};
-
-	struct Camera
-	{
-		Position eye, center, up;
-		//rotateCamera();
-	};
-
-	struct VertexColor
-	{
-		Position position;
-		Normal normal;
-		Color color;
 	};
 }

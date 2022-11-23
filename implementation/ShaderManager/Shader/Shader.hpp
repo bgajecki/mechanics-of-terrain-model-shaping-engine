@@ -39,12 +39,16 @@ namespace engine
 			/**
 			* Initialize fields of the class.
 			*/
-			Shader(const ShaderType);
+			Shader() = delete;
+			/**
+			* Initialize fields of the class.
+			*/
+			Shader(ShaderType);
 
 			/**
 			* Initialize fields of the class.
 			*/
-			Shader(const ShaderType type, const ShaderSource& path);
+			Shader(ShaderType type, const ShaderSource& path);
 
 			/**
 			* Shader can't be copied, because it's creating problem with assignment.

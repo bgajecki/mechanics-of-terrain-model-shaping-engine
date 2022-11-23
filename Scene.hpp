@@ -3,6 +3,7 @@
 #include <memory>
 #include "implementation/Object/Object.hpp"
 #include "BasicTypes.hpp"
+#include "Camera.hpp"
 #include "SceneManager.hpp"
 
 namespace engine
@@ -12,12 +13,12 @@ namespace engine
         /**
         * @brief Unique pointer to mesh object.
         */
-        using MeshPointer = std::unique_ptr<implementation::Object>;
+        using ObjectPointer = std::unique_ptr<implementation::Object>;
 
         /**
         * @brief Vector of unique pointers to meshes objects.
         */
-        using MeshVector = std::vector<MeshPointer>;
+        using ObjectVector = std::vector<ObjectPointer>;
     public:
         /**
         * Draw mesh
@@ -32,8 +33,8 @@ namespace engine
         template<typename T, typename... RestOfParameters>
         T* createObject(RestOfParameters... restOfParameters)
         {
-            this->meshes.push_back(std::make_unique<T>(restOfParameters...));
-            return dynamic_cast<T*>(this->meshes.back().get());
+            this->objects.push_back(std::make_unique<T>(restOfParameters...));
+            return dynamic_cast<T*>(this->objects.back().get());
         }
         
         /**
@@ -42,9 +43,6 @@ namespace engine
         virtual void draw(const Program& program);
 
     protected:
-
-        void updateMvpMatrix();
-
         /**
         * Draw mesh
         */
@@ -68,12 +66,7 @@ namespace engine
         /**
         * Draw mesh
         */
-        Matrix mvp;
-
-        /**
-        * Draw mesh
-        */
-        MeshVector meshes;
+        ObjectVector objects;
 
         /**
         * Draw mesh

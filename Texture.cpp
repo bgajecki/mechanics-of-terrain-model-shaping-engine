@@ -13,6 +13,17 @@ namespace engine
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
+	Texture::Texture(const std::string& path)
+		: Texture()
+	{
+		this->load(path);
+	}
+
+	Texture::Texture(Texture&& texture) noexcept
+	{
+		std::swap(this->id, texture.id);
+	}
+
 	Texture::~Texture()
 	{
 		glDeleteTextures(1, &this->id);
@@ -41,4 +52,16 @@ namespace engine
 		glBindTexture(GL_TEXTURE_2D, 0);
 		stbi_image_free(data);
 	}
+
+	TextureReference::TextureReference(Texture& texture)
+		: texture(texture)
+	{
+	}
+
+	void TextureReference::bind(int index)
+	{
+		this->texture.bind(index);
+	}
+
+
 }

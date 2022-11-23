@@ -4,13 +4,13 @@ namespace engine
 {
     namespace implementation
     {
-        const engine::Shader ShaderManager::createShader(const ShaderType type)
+        const engine::Shader ShaderManager::createShader(ShaderType type)
         {
             this->shaders.push_back(std::move(Shader(type)));
             return --this->shaders.end();
         }
 
-        const engine::Shader ShaderManager::createShader(const ShaderType type, const ShaderSource& path)
+        const engine::Shader ShaderManager::createShader(ShaderType type, const ShaderSource& path)
         {
             Shader shader(type, path);
             this->shaders.push_back(std::move(shader));

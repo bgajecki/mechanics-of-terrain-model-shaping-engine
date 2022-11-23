@@ -4,13 +4,13 @@ namespace engine
 {
 	namespace implementation
 	{
-		Shader::Shader(const ShaderType type)
+		Shader::Shader(ShaderType type)
 			: id(0u), type(type)
 		{
 			this->id = glCreateShader(this->type);
 		}
 
-		Shader::Shader(const ShaderType type, const ShaderSource& path)
+		Shader::Shader(ShaderType type, const ShaderSource& path)
 			: Shader(type)
 		{
 			this->compile(path);

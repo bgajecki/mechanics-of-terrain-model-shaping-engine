@@ -28,14 +28,14 @@ namespace engine
 			* @param shader Path to shader and shader type.
 			* @return Index of the shader.
 			*/
-			const engine::Shader createShader(const ShaderType);
+			const engine::Shader createShader(ShaderType);
 
 			/**
 			* @brief Add shader to shader loader list.
 			* @param shader Path to shader and shader type.
 			* @return Index of the shader.
 			*/
-			const engine::Shader createShader(const ShaderType type, const ShaderSource& path);
+			const engine::Shader createShader(ShaderType type, const ShaderSource& path);
 
 			/**
 			* @brief Add shader to shader loader list.

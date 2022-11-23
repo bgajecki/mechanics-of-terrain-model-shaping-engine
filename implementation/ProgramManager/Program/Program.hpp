@@ -79,7 +79,15 @@ namespace engine
 			* @brief Use program.
 			*/
 			void use();
-	
+
+			/**
+			* @brief Use program.
+			*/
+			void loadUniforms();
+
+			/**
+			* @brief Use program.
+			*/
 			template <typename UniformCallback, typename... RestOfParameters>
 			void createUniform(UniformCallback uniformCallback, const char* name, RestOfParameters... restOfParameters)
 			{

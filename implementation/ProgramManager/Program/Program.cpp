@@ -60,6 +60,10 @@ namespace engine
 		void Program::use()
 		{
 			glUseProgram(this->id);
+		}
+
+		void Program::loadUniforms()
+		{
 			for (auto createUniform : this->createUniforms)
 				createUniform();
 		}

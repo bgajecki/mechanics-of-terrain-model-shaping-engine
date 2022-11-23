@@ -33,8 +33,6 @@ namespace engine
         */
         std::vector<Particle> particles;
 
-
-
     protected:
 
         /**

@@ -9,8 +9,8 @@ namespace engine
         glGenBuffers(1, &this->elementBufferObject);
     }
 
-	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures)
-        : vertices(vertices), indices(indices), textures(textures)
+	Mesh::Mesh(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices)
+        : vertices(vertices), indices(indices)
     {
         glGenVertexArrays(1, &this->vertexArrayObject);
         glGenBuffers(1, &this->vertexBufferObject);
@@ -141,13 +141,13 @@ namespace engine
         }
         file.close();
 
-        this->vertices.resize(this->indices.size(), Vertex());
+        this->vertices.resize(this->indices.size(), MeshVertex());
 
         for (size_t i = 0; i < this->vertices.size(); i++)
         {
             this->vertices[i].position = positions[positions_indices[i]];
             this->vertices[i].normal = normals[normals_indices[i]];
-            this->vertices[i].textureCoordinate = texture_coordinates[texture_coordinates_indices[i]];
+            this->vertices[i].attribute = texture_coordinates[texture_coordinates_indices[i]];
         }
     }
 
@@ -162,7 +162,7 @@ namespace engine
 
         // VBO
         glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex),
+        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(MeshVertex),
             vertices.data(), GL_STATIC_DRAW);
 
         // EBO
@@ -172,13 +172,13 @@ namespace engine
 
         // Vertex positions
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)0);
         // Vertex normals
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, normal));
         // Vertex texture coordinates
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinate));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, attribute));
 
         glBindVertexArray(0);
 

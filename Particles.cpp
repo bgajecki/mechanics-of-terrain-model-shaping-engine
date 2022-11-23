@@ -24,7 +24,7 @@ namespace engine
             // Draw mesh
             glBindVertexArray(this->vertexArrayObject);
             //glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
-            glDrawArrays(GL_POINTS, 0, this->particles.size());
+            glDrawArrays(GL_POINTS, 0, this->vertices.size());
             glBindVertexArray(0);
         }
     }

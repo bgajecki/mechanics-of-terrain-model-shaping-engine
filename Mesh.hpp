@@ -9,8 +9,14 @@
 
 namespace engine
 {
+    /**
+    *
+    */
+    using MeshVertex = Vertex<TextureCoordinate>;
+
     class Mesh : public implementation::Object
     {
+
     public:
         /**
         *
@@ -25,7 +31,7 @@ namespace engine
         /**
         * 
         */
-        Mesh(const std::vector<Vertex>&, const std::vector<unsigned int>&, const std::vector<Texture>&);
+        Mesh(const std::vector<MeshVertex>&, const std::vector<unsigned int>&);
 
         /**
         * Draw mesh
@@ -40,7 +46,7 @@ namespace engine
         /**
         * Draw mesh
         */
-        std::vector<Vertex> vertices;
+        std::vector<MeshVertex> vertices;
         
         /**
         * Draw mesh
@@ -50,7 +56,7 @@ namespace engine
         /**
         * Draw mesh
         */
-        std::vector<Texture> textures;
+        std::vector<TextureReference> textures;
 
     protected:
 
