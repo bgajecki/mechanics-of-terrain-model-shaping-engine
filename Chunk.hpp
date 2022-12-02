@@ -48,7 +48,7 @@ namespace engine
         /**
         * @brief Unique pointer to scene object.
         */
-        ~Chunk();
+        virtual ~Chunk();
         
         /**
         * @brief Unique pointer to scene object.
@@ -221,50 +221,50 @@ namespace engine
     void Chunk<T, NumberOfVoxelTypes>::generateVertices(bool xNegative, bool xPositive, bool yNegative, bool yPositive, bool zNegative, bool zPositive, const Position& position, unsigned type)
     {
         float x = position.x, y = position.y, z = position.z;
-        glm::vec3 v1(x - this->voxelSize, y - this->voxelSize, z + this->voxelSize);
-        glm::vec3 v2(x + this->voxelSize, y - this->voxelSize, z + this->voxelSize);
-        glm::vec3 v3(x + this->voxelSize, y + this->voxelSize, z + this->voxelSize);
-        glm::vec3 v4(x - this->voxelSize, y + this->voxelSize, z + this->voxelSize);
-        glm::vec3 v5(x + this->voxelSize, y - this->voxelSize, z - this->voxelSize);
-        glm::vec3 v6(x - this->voxelSize, y - this->voxelSize, z - this->voxelSize);
-        glm::vec3 v7(x - this->voxelSize, y + this->voxelSize, z - this->voxelSize);
-        glm::vec3 v8(x + this->voxelSize, y + this->voxelSize, z - this->voxelSize);
+        Position v1(x - this->voxelSize, y - this->voxelSize, z + this->voxelSize);
+        Position v2(x + this->voxelSize, y - this->voxelSize, z + this->voxelSize);
+        Position v3(x + this->voxelSize, y + this->voxelSize, z + this->voxelSize);
+        Position v4(x - this->voxelSize, y + this->voxelSize, z + this->voxelSize);
+        Position v5(x + this->voxelSize, y - this->voxelSize, z - this->voxelSize);
+        Position v6(x - this->voxelSize, y - this->voxelSize, z - this->voxelSize);
+        Position v7(x - this->voxelSize, y + this->voxelSize, z - this->voxelSize);
+        Position v8(x + this->voxelSize, y + this->voxelSize, z - this->voxelSize);
         T attribute = this->voxelTypes[type];
 
-        glm::vec3 normal;
+        Normal normal;
         if (zPositive)
         {
-            normal = glm::vec3(0.0f, 0.0f, 1.0f);
+            normal = Normal(0.0f, 0.0f, 1.0f);
             this->addVoxelFace(v1, v2, v3, v4, normal, attribute);
         }
 
         if (zNegative)
         {
-            normal = glm::vec3(0.0f, 0.0f, -1.0f);
+            normal = Normal(0.0f, 0.0f, -1.0f);
             this->addVoxelFace(v5, v6, v7, v8, normal, attribute);
         }
 
         if (xPositive)
         {
-            normal = glm::vec3(1.0f, 0.0f, 0.0f);
+            normal = Normal(1.0f, 0.0f, 0.0f);
             this->addVoxelFace(v2, v5, v8, v3, normal, attribute);
         }
 
         if (xNegative)
         {
-            normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+            normal = Normal(-1.0f, 0.0f, 0.0f);
             this->addVoxelFace(v6, v1, v4, v7, normal, attribute);
         }
 
         if (yPositive)
         {
-            normal = glm::vec3(0.0f, 1.0f, 0.0f);
+            normal = Normal(0.0f, 1.0f, 0.0f);
             this->addVoxelFace(v4, v3, v8, v7, normal, attribute);
         }
 
         if (yNegative)
         {
-            normal = glm::vec3(0.0f, -1.0f, 0.0f);
+            normal = Normal(0.0f, -1.0f, 0.0f);
             this->addVoxelFace(v6, v5, v2, v1, normal, attribute);
         }
     }
@@ -309,7 +309,7 @@ namespace engine
         vertex.attribute = attribute;
         vertex.normal = normal;
 
-        size_t index_start = this->vertices.size();
+        Index index_start = this->vertices.size();
         vertex.position = v1;
         this->vertices.push_back(vertex);
         vertex.position = v2;
@@ -359,7 +359,7 @@ namespace engine
         {
             // Draw mesh
             glBindVertexArray(this->vertexArrayObject);
-            glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(this->primitivesType, this->indices.size(), GL_UNSIGNED_INT, 0);
             //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
             glBindVertexArray(0);
         }
@@ -379,12 +379,12 @@ namespace engine
         // VBO
         glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferObject);
         glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex<T>),
-            vertices.data(), GL_STATIC_DRAW);
+            vertices.data(), GL_DYNAMIC_DRAW);
 
         // EBO
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferObject);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(Index),
-            this->indices.data(), GL_STATIC_DRAW);
+            this->indices.data(), GL_DYNAMIC_DRAW);
 
         // Vertex positions
         glEnableVertexAttribArray(0);

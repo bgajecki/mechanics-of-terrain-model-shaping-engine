@@ -4,7 +4,7 @@
 
 namespace engine
 {
-    class Voxel
+    class Voxel final
     {
     public:
         /**
@@ -65,6 +65,6 @@ namespace engine
         /**
         * @brief Unique pointer to scene object.
         */
-        float lifespan;
+        Lifespan lifespan;
     };
 }

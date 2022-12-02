@@ -14,8 +14,10 @@ namespace engine
             if (object->getProgram() == program)
             {
                 this->model = object->getModelMatrix();
+                //object->callPreDrawSettings();
                 program->loadUniforms();
                 object->draw();
+                //object->callPostDrawSettings();
             }
         }
     }

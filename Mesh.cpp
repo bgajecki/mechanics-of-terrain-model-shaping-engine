@@ -29,30 +29,10 @@ namespace engine
         bool areBuffersSetup = this->setupBuffers();
         if (areBuffersSetup)
         {
-            //unsigned int diffuseNr = 1;
-            //unsigned int specularNr = 1;
-            for (size_t i = 0; i < this->textures.size(); i++)
-            {
-                //glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-                // retrieve texture number (the N in diffuse_textureN)
-                /*
-                string number;
-                string name = textures[i].type;
-                if (name == "texture_diffuse")
-                    number = std::to_string(diffuseNr++);
-                else if (name == "texture_specular")
-                    number = std::to_string(specularNr++);
-
-                shader.setInt(("material." + name + number).c_str(), i);
-                */
-                //glBindTexture(GL_TEXTURE_2D, this->textures[i]);
-                this->textures[i].bind(i);
-            }
-            glActiveTexture(GL_TEXTURE0);
-
+            this->setupTextures();
             // Draw mesh
             glBindVertexArray(this->vertexArrayObject);
-            glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(this->primitivesType, this->indices.size(), GL_UNSIGNED_INT, 0);
             //glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
             glBindVertexArray(0);
         }
@@ -151,6 +131,14 @@ namespace engine
         }
     }
 
+    void Mesh::setupTextures()
+    {
+
+        for (size_t i = 0; i < this->textures.size(); i++)
+            this->textures[i].bind(i);
+        glActiveTexture(GL_TEXTURE0);
+    }
+
     bool Mesh::setupBuffers()
     {
         if (this->vertices.empty()
@@ -163,12 +151,12 @@ namespace engine
         // VBO
         glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferObject);
         glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(MeshVertex),
-            vertices.data(), GL_STATIC_DRAW);
-
+            vertices.data(), GL_DYNAMIC_DRAW);
+        //DYNAMIC_DRAW
         // EBO
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferObject);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(Index),
-        this->indices.data(), GL_STATIC_DRAW);
+        this->indices.data(), GL_DYNAMIC_DRAW);
 
         // Vertex positions
         glEnableVertexAttribArray(0);

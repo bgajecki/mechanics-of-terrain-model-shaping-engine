@@ -26,7 +26,7 @@ namespace engine
         /**
         *
         */
-        ~Mesh();
+        virtual ~Mesh();
 
         /**
         * 
@@ -59,6 +59,11 @@ namespace engine
         std::vector<TextureReference> textures;
 
     protected:
+
+        /**
+        * Draw mesh
+        */
+        virtual void setupTextures();
 
         /**
         * Draw mesh

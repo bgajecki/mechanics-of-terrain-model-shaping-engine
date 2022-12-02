@@ -2,6 +2,7 @@
 
 #include "Program.hpp"
 #include "BasicTypes.hpp"
+#include <functional>
 
 namespace engine
 {
@@ -12,6 +13,10 @@ namespace engine
 		*/
 		class Object
 		{
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			using SettingsFunction = std::function<void(Object*)>;
 		public:
 			/**
 			* @brief A shader manager class that manages shaders in the stage.
@@ -26,7 +31,7 @@ namespace engine
 			/**
 			* @brief A shader manager class that manages shaders in the stage.
 			*/
-			virtual void draw();
+			virtual void draw() = 0;
 
 			/**
 			* @brief A shader manager class that manages shaders in the stage.
@@ -51,9 +56,49 @@ namespace engine
 			/**
 			* @brief A shader manager class that manages shaders in the stage.
 			*/
+			void setPrimitivesType(PrimitivesType);
+
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			PrimitivesType getPrimitivesType() const;
+
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
 			virtual Matrix getModelMatrix() const;
 
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			//void setPreDrawSettings(SettingsFunction);
+
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			//void setPostDrawSettings(SettingsFunction);
+
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			//void callPreDrawSettings();
+
+			/**
+			* @brief A shader manager class that manages shaders in the stage.
+			*/
+			//void callPostDrawSettings();
+
+
 		protected:
+			/**
+			* Draw mesh
+			*/
+			SettingsFunction preDrawSettings;
+
+			/**
+			* Draw mesh
+			*/
+			SettingsFunction postDrawSettings;
 
 			/**
 			* Draw mesh
@@ -64,6 +109,11 @@ namespace engine
 			* Draw mesh
 			*/
 			Position position;
+
+			/**
+			* Draw mesh
+			*/
+			PrimitivesType primitivesType;
 		};
 
 	}

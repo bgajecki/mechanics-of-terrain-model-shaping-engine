@@ -8,7 +8,7 @@
 
 namespace engine
 {
-    class Texture
+    class Texture final
     {
         /**
         * @brief A shader manager class that manages shaders in the stage.
@@ -50,14 +50,14 @@ namespace engine
         */
         void load(const std::string&);
         
-    protected:
+    private:
         /**
         * @brief A shader manager class that manages shaders in the stage.
         */
         TextureId id;
     };
 
-    class TextureReference
+    class TextureReference final
     {
     public:
         /**
@@ -80,7 +80,10 @@ namespace engine
         */
         void bind(int);
 
-    protected:
+    private:
+        /**
+        * @brief A shader manager class that manages shaders in the stage.
+        */
         Texture& texture;
     };
 

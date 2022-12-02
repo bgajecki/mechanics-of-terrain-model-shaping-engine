@@ -4,6 +4,7 @@ namespace engine
 {
     Particles::Particles()
     {
+        this->primitivesType = GL_POINTS;
         glGenVertexArrays(1, &this->vertexArrayObject);
         glGenBuffers(1, &this->vertexBufferObject);
        // glGenBuffers(1, &this->elementBufferObject);
@@ -24,7 +25,7 @@ namespace engine
             // Draw mesh
             glBindVertexArray(this->vertexArrayObject);
             //glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
-            glDrawArrays(GL_POINTS, 0, this->vertices.size());
+            glDrawArrays(this->primitivesType, 0, this->vertices.size());
             glBindVertexArray(0);
         }
     }
@@ -55,7 +56,7 @@ namespace engine
         // VBO
         glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferObject);
         glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Position),
-            vertices.data(), GL_STATIC_DRAW);
+            vertices.data(), GL_DYNAMIC_DRAW);
 
         // Vertex positions
         glEnableVertexAttribArray(0);

@@ -14,17 +14,17 @@ namespace engine
 
 	using Velocity = glm::vec3;
 	using Acceleration = glm::vec3;
-	using LifeSpan = float;
+	using Lifespan = GLfloat;
 
 	using Index = GLuint;
 
 	using Matrix = glm::mat4;
 
-	using Angle = float;
+	using Angle = GLfloat;
 
 	using Direction = glm::vec3;
 
-	using Size = glm::vec2;
+	using PrimitivesType = GLenum;
 
 	template<typename T>
 	struct Vertex
@@ -39,6 +39,6 @@ namespace engine
 		Position position;
 		Velocity velocity;
 		Acceleration acceleration;
-		LifeSpan lifespan;
+		Lifespan lifespan;
 	};
 }

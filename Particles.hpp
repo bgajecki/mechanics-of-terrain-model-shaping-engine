@@ -21,7 +21,7 @@ namespace engine
         /**
         *
         */
-        ~Particles();
+        virtual ~Particles();
 
         /**
         * Draw mesh
