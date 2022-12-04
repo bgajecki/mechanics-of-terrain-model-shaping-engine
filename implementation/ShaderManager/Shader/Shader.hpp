@@ -25,77 +25,84 @@ namespace engine
 		using ShaderType = GLuint;
 
 		/**
-		* @brief Shader id type.
+		* @brief Shader ID type.
 		*/
 		using ShaderId = GLuint;
 
 		/**
-		* A shader class that store shader id and type.
+		* @brief A shader class that store shader ID and type. Delivers funcionality of loading
 		*/
 		class Shader final
 		{
+			/**
+			* @brief Program class need access to private fields of the Shader class.
+			*/
 			friend class Program;
 		public:
 			/**
-			* Initialize fields of the class.
+			* @brief Initialize shader.
 			*/
 			Shader() = delete;
-			/**
-			* Initialize fields of the class.
-			*/
-			Shader(ShaderType);
 
 			/**
-			* Initialize fields of the class.
+			* @brief Initialize shader.
+			* @param shaderType Type of the shader.
+			*/
+			Shader(ShaderType shaderType);
+
+			/**
+			* @brief Initialize shader.
+			* @param shaderType Type of the shader.
+			* @param path Path to the shader source code.
 			*/
 			Shader(ShaderType type, const ShaderSource& path);
 
 			/**
-			* Shader can't be copied, because it's creating problem with assignment.
+			* @brief Shader can't be copied, because it's creating problem with assignment.
 			*/
 			Shader(const Shader&) = delete;
 
 			/**
-			* Swaping shader IDs.
+			* @brief Swaping shader IDs.
 			*/
 			Shader(Shader&&) noexcept;
 
 			/**
-			* Delete shader if already exist.
+			* @brief Delete shader if already exist.
 			*/
 			~Shader();
 
 			/**
-			* Compile shader.
+			* @brief Compile shader.
 			* @param shaderInfo Contains shader code and shader type.
 			*/
-			void compile(const ShaderSource&);
+			void compile(const ShaderSource& shaderInfo);
 
 			/**
-			* Delete shader if already exist and initialize fields of the class.
+			* @brief Delete shader if already exist and initialize fields of the class.
 			*/
 			void clear();
 
 		private:
 			/**
-			* Load shader source from path and return it with shader type.
-			* @param shaderIndex Index of shader.
-			* @return Shader source code and type.
+			* @brief Load shader source from path and return it.
+			* @param path Path to the shader source code.
+			* @return Shader source code.
 			*/
-			const ShaderSource getShaderSource(const ShaderSource&);
+			const ShaderSource getShaderSource(const ShaderSource& path);
 
 			/**
-			* Check compilation status of the shader.
+			* @brief Check compilation status of the shader.
 			*/
 			void checkCompilationStatus();
 
 			/**
-			* Shader ID.
+			* @brief Shader ID.
 			*/
 			ShaderId id;
 
 			/**
-			* Shader type.
+			* @brief Shader type.
 			*/
 			ShaderType type;
 		};

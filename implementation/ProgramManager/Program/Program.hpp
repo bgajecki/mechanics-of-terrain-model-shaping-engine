@@ -22,7 +22,7 @@ namespace engine
 		using ShaderVector = std::vector<engine::Shader>;
 
 		/**
-		* @brief A program class that stores shaders and manage them.
+		* @brief Program of shaders.
 		*/
 		class Program final
 		{
@@ -48,7 +48,7 @@ namespace engine
 			~Program();
 
 			/**
-			* Link program.
+			* @brief Link program.
 			*/
 			void link();
 
@@ -81,12 +81,17 @@ namespace engine
 			void use();
 
 			/**
-			* @brief Use program.
+			* @brief Load uniforms.
 			*/
 			void loadUniforms();
 
 			/**
-			* @brief Use program.
+			* @brief Create a new uniform.
+			* @tparam UniformCallback Type of function passed by uniformCallback parameter.
+			* @tparam RestOfParameters Types of the rest of parameters.
+			* @param uniformCallback Uniform callback for specified type of uniform.
+			* @param name Name of the uniform.
+			* @param restOfParameters Rest of parameters passed to the uniform callback.
 			*/
 			template <typename UniformCallback, typename... RestOfParameters>
 			void createUniform(UniformCallback uniformCallback, const char* name, RestOfParameters... restOfParameters)
@@ -126,7 +131,9 @@ namespace engine
 
 			std::vector<std::function<void()>> createUniforms;
 		};
-
+		/**
+		* @brief List of programs.
+		*/
 		using ProgramList = std::list<Program>;
 	}
 	/**

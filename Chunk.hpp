@@ -11,146 +11,170 @@
 namespace engine
 {
     /**
-    * @brief Unique pointer to scene object.
+    * @brief Type of function called on singular voxels.
     */
     using VoxelFunction = std::function<void(size_t, size_t, size_t)>;
 
+    /**
+    * @brief Protype chunk class.
+    * @tparam T Type of voxel attribute.
+    * @tparam NumberOfVoxelTypes Number of voxel types.
+    */
     template<typename T, size_t NumberOfVoxelTypes>
     class Chunk : public implementation::Object
     {
         /**
-        * @brief Unique pointer to scene object.
+        * @brief 3D matrix of voxels.
         */
         using VoxelVector = std::vector<std::vector<std::vector<Voxel>>>;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Vector of vertices.
         */
         using VertexVector = std::vector<Vertex<T>>;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Vector of indicies.
         */
         using IndexVector = std::vector<Index>;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Array of voxel types.
         */
         using VoxelTypeArray = std::array<T, NumberOfVoxelTypes>;
         
     public:
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Chunk constructor.
         */
         Chunk();
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Chunk destructor.
         */
         virtual ~Chunk();
-        
-        /**
-        * @brief Unique pointer to scene object.
-        */
-        virtual void update(float);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Drawing primitives.
         */
         virtual void draw() override;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Refresh chunk. Calculate which voxels faces draw.
         */
         void refresh();
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Resize chunk.
+        * @param size New size of the chunk.
         */
-        void resize(size_t);
+        void resize(size_t size);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Set voxel size.
+        * @param size New size of the voxel.
         */
-        void setVoxelSize(float);
+        void setVoxelSize(float voxelSize);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Set attribute for voxel type.
+        * @param index Index of voxel type.
+        * @param attribute Attribute of voxel type.
         */
-        void setVoxelTypeAttribute(size_t, T);
-
+        void setVoxelTypeAttribute(size_t index, T attribute);
 
     protected:
 
         /**
-        * Draw mesh
+        * @brief Setup buffers.
         */
         virtual bool setupBuffers();
 
         /**
-        * Draw mesh
+        * @brief Generate veritces of the voxel.
+        * @param xNegative Whether to draw the face from the x-negative side.
+        * @param xPositive Whether to draw the face from the x-positive side.
+        * @param yNegative Whether to draw the face from the y-negative side.
+        * @param yPositive Whether to draw the face from the y-positive side.
+        * @param zNegative Whether to draw the face from the z-negative side.
+        * @param zPositive Whether to draw the face from the z-positive side.
+        * @param position Position of the voxel.
+        * @param type Type of the voxel.
         */
-        void generateVertices(bool, bool, bool, bool, bool, bool, const Position&, unsigned);
+        void generateVertices(bool xNegative, bool xPositive, bool yNegative, bool yPositive, bool zNegative, bool zPositive, const Position& position, unsigned type);
 
         /**
-        * Draw mesh
+        * @brief Add voxel face.
+        * @param v1 First vertex position.
+        * @param v2 Second vertex position.
+        * @param v3 Third vertex position.
+        * @param v4 Fourth vertex position.
+        * @param normal Normal of the voxel face.
+        * @param attribute Attribute of voxel type.
         */
-        void addVoxelFace(const Position&, const Position&, const Position&, const Position&, const Normal&, const T&);
+        void addVoxelFace(const Position& v1, const Position& v2, const Position& v3, const Position& v4, const Normal& normal, const T& attribute);
 
         /**
-        * Draw mesh
+        * @brief Execute function on each voxels.
+        * @param function Function which will be executed on each voxels.
         */
-        void executeOnEachVoxels(VoxelFunction);
+        void executeOnEachVoxels(VoxelFunction function);
 
         /**
-        * Draw mesh
+        * @brief Execute function on selected voxels.
+        * @param xMin X minimum range.
+        * @param xMax X maximum range.
+        * @param yMin Y minimum range.
+        * @param yMax Y maximum range.
+        * @param zMin Z minimum range.
+        * @param zMax Z maximum range.
+        * @param function Function which will be executed on selected voxels.
         */
-        void executeOnSelectedVoxels(size_t, size_t, size_t, size_t, size_t, size_t, VoxelFunction);
-
+        void executeOnSelectedVoxels(size_t xMin, size_t xMax, size_t yMin, size_t yMax, size_t zMin, size_t zMax, VoxelFunction function);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Size of the chunk.
         */
         size_t chunkSize;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Size of singular voxel.
         */
         float voxelSize;
 
         /**
-        * Draw mesh
+        * @brief Vertices container.
         */
         VertexVector vertices;
 
         /**
-        * Draw mesh
+        * @brief Voxels container.
         */
         VoxelVector voxels;
 
         /**
-        * Draw mesh
+        * @brief Indices container.
         */
         IndexVector indices;
 
         /**
-        * Draw mesh
+        * @brief Vertex array object.
         */
         GLuint vertexArrayObject;
 
         /**
-        * Draw mesh
+        * @brief Vertex buffer object.
         */
         GLuint vertexBufferObject;
 
         /**
-        * Draw mesh
+        * @brief Element buffer object.
         */
         GLuint elementBufferObject;
 
         /**
-        * Draw mesh
+        * @brief Voxel types array.
         */
         VoxelTypeArray voxelTypes;
 
@@ -209,12 +233,6 @@ namespace engine
                 this->generateVertices(xNegative, xPositive, yNegative, yPositive, zNegative, zPositive, position, this->voxels[x][y][z].getType());
             }
         });
-    }
-
-    template<typename T, size_t NumberOfVoxelTypes>
-    void Chunk<T, NumberOfVoxelTypes>::update(float dt)
-    {
-        this->refresh();
     }
 
     template<typename T, size_t NumberOfVoxelTypes>

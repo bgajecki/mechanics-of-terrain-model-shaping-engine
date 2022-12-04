@@ -4,86 +4,104 @@
 
 namespace engine
 {
+    /**
+    * @brief Camera class.
+    */
     class Camera
     {
     public:
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Camera constructor.
         */
         Camera();
 
+        /**
+        * @brief Camera destructor.
+        */
         ~Camera() = default;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Move camera position
+        * @param position Position which camera has to move.
         */
-        void move(Position);
+        void move(Position position);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Move camera according to camera direction.
+        * @param position Position which camera has to move.
         */
-        void moveAccordingToDirection(Position);
+        void moveAccordingToDirection(Position position);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Set camera position.
+        * @param position Position of the camera.
         */
-        void setPosition(Position);
+        void setPosition(Position position);
 
         /**
-        * @brief Unique pointer to scene object.
-        */
-        void setTarget(Position);
-
-        /**
-        * @brief Unique pointer to scene object.
+        * @brief Get camera position.
+        * @return Position of the camera.
         */
         Position getPosition() const;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Set camera target position.
+        * @param position Position of the camera target.
         */
-        void rotate(Angle, Angle);
+        void setTarget(Position);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Rotate camera direction.
+        * @param yaw Yaw angle.
+        * @param pitch Pitch angle.
+        */
+        void rotate(Angle yaw, Angle pitch);
+
+        /**
+        * @brief Get view matrix.
+        * @return View matrix.
         */
         Matrix getViewMatrix();
+
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Get view position.
+        * @return View position.
         */
         const Position& getViewPosition() const;
 
     protected:
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Update center according to the angles and camera position.
         */
         void updateCenter();
+
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Update angles according to the center and camera position.
         */
-        void updateAngle();
+        void updateAngles();
+
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Position of the camera eye.
         */
         Position eye;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Position of the camera target.
         */
         Position center;
         
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Coordination system of the world.
         */
         Position up;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Yaw angle.
         */
         Angle yaw;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Pitch angle.
         */
         Angle pitch;
     };

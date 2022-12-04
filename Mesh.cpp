@@ -9,14 +9,6 @@ namespace engine
         glGenBuffers(1, &this->elementBufferObject);
     }
 
-	Mesh::Mesh(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices)
-        : vertices(vertices), indices(indices)
-    {
-        glGenVertexArrays(1, &this->vertexArrayObject);
-        glGenBuffers(1, &this->vertexBufferObject);
-        glGenBuffers(1, &this->elementBufferObject);
-	}
-
     Mesh::~Mesh()
     {
         glDeleteBuffers(1, &this->vertexBufferObject);

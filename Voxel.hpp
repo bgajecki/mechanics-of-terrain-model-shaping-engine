@@ -4,66 +4,76 @@
 
 namespace engine
 {
+    /**
+    * @brief Voxel class.
+    */
     class Voxel final
     {
     public:
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Voxel constructor.
         */
         Voxel();
         
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Voxel destructor.
         */
         ~Voxel() = default;
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Set type of the voxel.
+        * @param type Type of the voxel.
         */
-        void setType(unsigned);
+        void setType(unsigned type);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Get type of the voxel.
+        * @return Type of the voxel.
         */
         unsigned getType() const;
         
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Set voxel in active state.
+        * @param active State of voxel.
         */
-        void setActive(bool);
+        void setActive(bool active);
 
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Is voxel in active state.
+        * @return State of the voxel.
         */
         bool isActive() const;
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Set lifespan of the voxel.
+        * @param Lifespan of the voxel.
         */
-        void setLifespan(float);
+        void setLifespan(float lifespan);
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Get lifespan of the voxel.
+        * @return Lifespan of the voxel.
         */
         float getLifespan() const;
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Decrease lifespan of the voxel.
+        * @param How much decrase voxel lifespan.
         */
         void decreaseLifespan(float);
 
 
     private:
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Voxel type.
         */
         unsigned type;
         /**
-        * @brief Unique pointer to scene object.
+        * @brief State of the voxel.
         */
         bool active;
         /**
-        * @brief Unique pointer to scene object.
+        * @brief Lifespan of the voxel.
         */
         Lifespan lifespan;
     };

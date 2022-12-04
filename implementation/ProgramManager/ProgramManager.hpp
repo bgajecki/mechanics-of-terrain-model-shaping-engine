@@ -7,21 +7,28 @@ namespace engine
 	namespace implementation
 	{
 		/**
-		* @brief A shader manager class that manages shaders in the stage.
+		* @brief A program manager class that manages programs.
 		*/
 		class ProgramManager
 		{
 		public:
-
+			/**
+			* @brief ProgramManager constructor.
+			*/
 			ProgramManager() = default;
+
+			/**
+			* @brief ProgramManager destructor.
+			*/
 			~ProgramManager() = default;
 
 			/**
-			* @brief Only one istance of ShaderManager object.
+			* @brief Only one istance of ProgramManager object.
 			*/
 			ProgramManager(const ProgramManager&) = delete;
+
 			/**
-			* @brief Only one istance of ShaderManager object.
+			* @brief Only one istance of ProgramManager object.
 			*/
 			ProgramManager(ProgramManager&&) = delete;
 

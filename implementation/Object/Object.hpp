@@ -9,109 +9,117 @@ namespace engine
 	namespace implementation
 	{
 		/**
-		* @brief A shader manager class that manages shaders in the stage.
+		* @brief Abstract class of drawable objects.
 		*/
 		class Object
 		{
-			/**
-			* @brief A shader manager class that manages shaders in the stage.
-			*/
-			using SettingsFunction = std::function<void(Object*)>;
+			///**
+			//* @brief Function type for performing settings.
+			//*/
+			//using SettingsFunction = std::function<void(Object*)>;
 		public:
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Object constructor.
 			*/
 			Object();
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Object destruktor.
 			*/
 			~Object() = default;
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Drawing primitives.
 			*/
 			virtual void draw() = 0;
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Set position of the object.
+			* @param position Position of the object.
 			*/
-			void setPosition(Position);
+			void setPosition(Position position);
 			
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Get position of the object.
+			* @return Position of the object.
 			*/
 			Position getPosition() const;
 			
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Set program of shaders.
+			* @param program Program of the shaders.
 			*/
-			void setProgram(const engine::Program&);
+			void setProgram(const engine::Program& program);
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Get program of shaders.
+			* @return Program of the shaders.
 			*/
 			const engine::Program getProgram() const;
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Set primitives type for input data.
+			* @param primitivesType Primitives type for input data.
 			*/
-			void setPrimitivesType(PrimitivesType);
+			void setPrimitivesType(PrimitivesType primitivesType);
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Get primitives type for input data.
+			* @return Primitives type for input data.
 			*/
 			PrimitivesType getPrimitivesType() const;
 
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Get model matrix.
+			* @return Model matrix.
 			*/
 			virtual Matrix getModelMatrix() const;
 
-			/**
-			* @brief A shader manager class that manages shaders in the stage.
-			*/
-			//void setPreDrawSettings(SettingsFunction);
+			///**
+			//* @brief Set function performing settings for pre draw.
+			//* @param preDrwaSettings Function performing settings for pre draw.
+			//*/
+			//void setPreDrawSettings(SettingsFunction preDrawSettings);
 
-			/**
-			* @brief A shader manager class that manages shaders in the stage.
-			*/
-			//void setPostDrawSettings(SettingsFunction);
+			///**
+			//* @brief Set function performing settings for post draw.
+			//* @param postDrwaSettings Function performing settings for post draw.
+			//*/
+			//void setPostDrawSettings(SettingsFunction postDrwaSettings);
 
-			/**
-			* @brief A shader manager class that manages shaders in the stage.
-			*/
+			///**
+			//* @brief Call function performing settings for pre draw.
+			//*/
 			//void callPreDrawSettings();
 
-			/**
-			* @brief A shader manager class that manages shaders in the stage.
-			*/
+			///**
+			//* @brief Call function performing settings for post draw.
+			//*/
 			//void callPostDrawSettings();
 
-
 		protected:
-			/**
-			* Draw mesh
-			*/
-			SettingsFunction preDrawSettings;
+			///**
+			//* @brief Function performing settings for pre draw.
+			//*/
+			//SettingsFunction preDrawSettings;
+
+			///**
+			//* @brief Function performing settings for post draw.
+			//*/
+			//SettingsFunction postDrawSettings;
 
 			/**
-			* Draw mesh
-			*/
-			SettingsFunction postDrawSettings;
-
-			/**
-			* Draw mesh
+			* @brief Program of shaders.
 			*/
 			engine::Program program;
 
 			/**
-			* Draw mesh
+			* @brief Position of the object.
 			*/
 			Position position;
 
 			/**
-			* Draw mesh
+			* @brief Primitives type for input data.
 			*/
 			PrimitivesType primitivesType;
 		};

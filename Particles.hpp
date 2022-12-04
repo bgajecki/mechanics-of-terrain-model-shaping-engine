@@ -10,56 +10,68 @@
 
 namespace engine
 {
+    /**
+    * @brief Protype particles class representing effects.
+    */
     class Particles : public implementation::Object
     {
+        /**
+        * @brief Vector of particles.
+        */
+        using ParticleVector = std::vector<Particle>;
+
+        /**
+        * @brief Vector of vertices.
+        */
+        using VertexVector = std::vector<Position>;
+
     public:
         /**
-        *
+        * @brief Particles constructor.
         */
         Particles();
 
         /**
-        *
+        * @brief Particles destructor.
         */
         virtual ~Particles();
 
         /**
-        * Draw mesh
+        * @brief Drawing primitives.
         */
         virtual void draw() override;
 
         /**
-        * Draw mesh
+        * @brief Particles container.
         */
-        std::vector<Particle> particles;
+        ParticleVector particles;
 
     protected:
 
         /**
-        * Draw mesh
+        * @brief Setup buffers
         */
         virtual bool setupBuffers();
 
-
         /**
-        * Draw mesh
+        * @brief Vertex array object.
         */
         GLuint vertexArrayObject;
 
         /**
-        * Draw mesh
+        * @brief Vertex buffer object.
         */
         GLuint vertexBufferObject;
 
-        /**
-        * Draw mesh
-        */
+        ///**
+        //* @brief Element buffer object.
+        //*/
         //GLuint elementBufferObject;
 
         /**
-        * Draw mesh
+        * @brief Vertices container.
         */
-        std::vector<Position> vertices;
+        VertexVector vertices;
 
     };
 

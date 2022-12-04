@@ -6,6 +6,9 @@
 
 namespace engine
 {
+	/**
+	* @brief A scene manager class that manages scenes. It inherits from ShaderManager and ProgramManager.
+	*/
 	class SceneManager : public implementation::ShaderManager, public implementation::ProgramManager
 	{
 		/**
@@ -14,18 +17,22 @@ namespace engine
 		using ScenePointer = std::unique_ptr<implementation::Scene>;
 
 		/**
-		* @brief Vector of unique pointers to meshes objects.
+		* @brief Vector of unique pointers to scenes.
 		*/
 		using SceneVector = std::vector<ScenePointer>;
 	public:
 
 		/**
-		* Draw mesh
+		* @brief SceneManager constructor.
 		*/
 		SceneManager();
 		
 		/**
-		* Draw mesh
+		* @brief Create a new scene.
+		* @tparam T Type of the scene.
+		* @tparam RestOfParameters Types of the rest of parameters.
+		* @param restOfParameters Rest of parameters passed to the scene constructor.
+		* @return Pointer to the created scene.
 		*/
 		template<typename T, typename... RestOfParameters>
 		T* createScene(RestOfParameters... restOfParameters)
@@ -35,23 +42,24 @@ namespace engine
 		}
 
 		/**
-		* Draw mesh
+		* @brief Drawing objects assigned to the scene.
 		*/
 		void draw();
 		
 		/**
-		* Draw mesh
+		* @brief Set current scene.
+		* @param scene Pointer to the scene.
 		*/
-		void setCurrentScene(implementation::Scene*);
+		void setCurrentScene(implementation::Scene* scene);
 		
 	protected:
 		/**
-		* Draw mesh
+		* @brief Scenes container.
 		*/
 		SceneVector scenes;
 
 		/**
-		* Draw mesh
+		* @brief Current scene.
 		*/
 		implementation::Scene* currentScene;
 	};

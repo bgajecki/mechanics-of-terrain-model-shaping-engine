@@ -10,78 +10,90 @@
 namespace engine
 {
     /**
-    *
+    * @brief Vertex specified for mesh. Attribute texture coordinates.
     */
     using MeshVertex = Vertex<TextureCoordinate>;
 
+    /**
+    * @brief Protype mesh class.
+    */
     class Mesh : public implementation::Object
     {
+        /**
+        * @brief Vector of vertices.
+        */
+        using VertexVector = std::vector<MeshVertex>;
 
+        /**
+        * @brief Vector of indicies.
+        */
+        using IndexVector = std::vector<Index>;
+
+        /**
+        * @brief Texture reference vector.
+        */
+        using TextureVector = std::vector<TextureReference>;
     public:
         /**
-        *
+        * @brief Mesh constructor
         */
         Mesh();
 
         /**
-        *
+        * @brief Mesh destructor
         */
         virtual ~Mesh();
 
         /**
-        * 
-        */
-        Mesh(const std::vector<MeshVertex>&, const std::vector<unsigned int>&);
-
-        /**
-        * Draw mesh
+        * @brief Drawing primitives.
         */
         virtual void draw() override;
 
         /**
-        * Draw mesh
+        * @brief Load OBJ file.
+        * @param path Path to the file location.
         */
-        bool loadObj(const std::string&);
+        bool loadObj(const std::string& path);
 
         /**
-        * Draw mesh
+        * @brief Vertices container.
         */
-        std::vector<MeshVertex> vertices;
+        VertexVector vertices;
         
         /**
-        * Draw mesh
+        * @brief Indices container.
         */
-        std::vector<Index> indices;
+        IndexVector indices;
 
         /**
-        * Draw mesh
+        * @brief Textures references container.
         */
-        std::vector<TextureReference> textures;
+        TextureVector textures;
 
     protected:
 
         /**
-        * Draw mesh
+        * @brief Setup textures.
         */
         virtual void setupTextures();
 
         /**
-        * Draw mesh
+        * @brief Setup buffers.
         */
         virtual bool setupBuffers();
 
         /**
-        * Draw mesh
+        * @brief Vertex array object.
         */
         GLuint vertexArrayObject;
 
         /**
-        * Draw mesh
+        * @brief Vertex buffer object.
         */
         GLuint vertexBufferObject;
 
         /**
-        * Draw mesh
+        * @brief Element buffer object.
         */
         GLuint elementBufferObject;
 

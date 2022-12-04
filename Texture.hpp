@@ -8,81 +8,92 @@
 
 namespace engine
 {
+    /**
+    * @brief Texture class.
+    */
     class Texture final
     {
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture ID type.
         */
         using TextureId = GLuint;
     public:
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture constructor.
         */
         Texture();
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture constructor.
+        * @param path Path to the texture location
         */
-        Texture(const std::string&);
+        Texture(const std::string& path);
 
         /**
-        * Shader can't be copied, because it's creating problem with assignment.
+        * @brief Textire can't be copied, because it's creating problem with assignment.
         */
         Texture(const Texture&) = delete;
 
         /**
-        * Swaping shader IDs.
+        * @brief Swaping texture IDs.
         */
         Texture(Texture&&) noexcept;
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture destructor.
         */
         ~Texture();
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Bind texture.
+        * @param index Index.
         */
-        void bind(int);
+        void bind(int index);
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Load texture.
+        * @param path Path to the texture location
         */
-        void load(const std::string&);
+        void load(const std::string& path);
         
     private:
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture ID.
         */
         TextureId id;
     };
 
+    /**
+    * @brief TextureReference class. Used to not copy textures.
+    */
     class TextureReference final
     {
     public:
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief TextureReference constructor.
         */
         TextureReference() = delete;
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief TextureReference constructor.
+        * @param texture Reference to the texture object.
         */
-        TextureReference(Texture&);
+        TextureReference(Texture& texture);
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief TextureReference destructor.
         */
         ~TextureReference() = default;
 
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Bind texture.
+        * @param index Index.
         */
         void bind(int);
 
     private:
         /**
-        * @brief A shader manager class that manages shaders in the stage.
+        * @brief Texture reference.
         */
         Texture& texture;
     };

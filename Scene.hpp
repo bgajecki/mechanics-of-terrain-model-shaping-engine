@@ -8,27 +8,45 @@
 
 namespace engine
 {
+    /**
+    * @brief Class representing scene. Has objects to draw.
+    */
     class Scene : public implementation::Scene
     {
         /**
-        * @brief Unique pointer to mesh object.
+        * @brief Unique pointer to the object.
         */
         using ObjectPointer = std::unique_ptr<implementation::Object>;
 
         /**
-        * @brief Vector of unique pointers to meshes objects.
+        * @brief Vector of unique pointers to the objects.
         */
         using ObjectVector = std::vector<ObjectPointer>;
-    public:
-        /**
-        * Draw mesh
-        */
-        Scene(SceneManager&);
 
+    public:
+
+        /**
+        * @brief Scene need scene manager reference.
+        */
+        Scene() = delete;
+
+        /**
+        * @brief Scene constructor.
+        * @param sceneManager Reference to the scene manager.
+        */
+        Scene(SceneManager& sceneManager);
+
+        /**
+        * @brief Scene destructor.
+        */
         ~Scene() = default;
 
         /**
-        * Draw mesh
+        * @brief Create a new object.
+        * @tparam T Type of the object.
+        * @tparam RestOfParameters Types of the rest of parameters.
+        * @param restOfParameters Rest of parameters passed to the object constructor.
+        * @return Pointer to the created object.
         */
         template<typename T, typename... RestOfParameters>
         T* createObject(RestOfParameters... restOfParameters)
@@ -38,38 +56,39 @@ namespace engine
         }
         
         /**
-        * Draw mesh
+        * @brief Drawing objects assigned to the scene and passed program by parameter.
+        * @param program Program of shaders.
         */
         virtual void draw(const Program& program);
 
     protected:
         /**
-        * Draw mesh
+        * @brief Scene camera.
         */
         Camera camera;
 
         /**
-        * Draw mesh
+        * @brief Projection matrix.
         */
         Matrix projection;
 
         /**
-        * Draw mesh
+        * @brief View matrix.
         */
         Matrix view;
 
         /**
-        * Draw mesh
+        * @brief Model matrix.
         */
         Matrix model;
 
         /**
-        * Draw mesh
+        * @brief Container of the pointers to the objects.
         */
         ObjectVector objects;
 
         /**
-        * Draw mesh
+        * @brief Reference to the scene manager.
         */
         SceneManager& sceneManager;
     };

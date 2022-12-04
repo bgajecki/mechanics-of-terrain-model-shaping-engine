@@ -5,7 +5,7 @@ namespace engine
 	Camera::Camera()
 		: eye(0.0f, 0.5f, -1.0f), center(0.0f, 0.0f, 0.0f), up(0.0f, 1.0f, 0.0f)
 	{
-		this->updateAngle();
+		this->updateAngles();
 	}
 
 	void Camera::move(Position position)
@@ -42,7 +42,7 @@ namespace engine
 	void Camera::setTarget(Position position)
 	{
 		this->center = position;
-		updateAngle();
+		updateAngles();
 	}
 
 	Position Camera::getPosition() const
@@ -83,7 +83,7 @@ namespace engine
 		center = eye + direction;
 	}
 
-	void Camera::updateAngle()
+	void Camera::updateAngles()
 	{
 		Direction direction = glm::normalize(center - eye);
 		this->pitch = glm::degrees(asin(direction.y));

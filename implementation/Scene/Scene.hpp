@@ -7,15 +7,16 @@ namespace engine
 	namespace implementation
 	{
 		/**
-		* @brief A shader manager class that manages shaders in the stage.
+		* @brief Interface class of the scene.
 		*/
 		class Scene
 		{
 		public:
 			/**
-			* @brief A shader manager class that manages shaders in the stage.
+			* @brief Drawing objects assigned to the scene and passed program by parameter.
+			* @param program Program of shaders.
 			*/
-			virtual void draw(const engine::Program&);
+			virtual void draw(const engine::Program& program) = 0;
 		};
 
 	}
