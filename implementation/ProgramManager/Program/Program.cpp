@@ -64,8 +64,8 @@ namespace engine
 
 		void Program::loadUniforms()
 		{
-			for (auto createUniform : this->createUniforms)
-				createUniform();
+			for (auto loadUniform : this->loadUniformsFunctions)
+				loadUniform();
 		}
 
 		void Program::attachShaders()
@@ -90,13 +90,22 @@ namespace engine
 				GLint maxLength = 0;
 				glGetProgramiv(this->id, GL_INFO_LOG_LENGTH, &maxLength);
 
-				// The maxLength includes the NULL character
 				std::vector<GLchar> errorLog(maxLength);
 				glGetProgramInfoLog(this->id, maxLength, &maxLength, &errorLog[0]);
 
-				// Print the error log in DEBUG mode
+				// Print the error log.
 				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, ""));
 			}
+		}
+
+		GLint Program::getUniformLocation(const std::string& name)
+		{
+			if(this->uniformLocation.find(name) != this->uniformLocation.end())
+				return this->uniformLocation[name];
+
+			GLint location = glGetUniformLocation(this->id, name.c_str());
+			this->uniformLocation[name] = location;
+			return location;
 		}
 	}
 }

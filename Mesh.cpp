@@ -54,24 +54,28 @@ namespace engine
         {
             stream.str(line);
             stream >> type;
+            // Vertex.
             if (type == "v")
             {
                 Position position;
                 stream >> position.x >> position.y >> position.z;
                 positions.push_back(position);
             }
+            // Vertex normal.
             else if (type == "vn")
             {
                 Normal normal;
                 stream >> normal.x >> normal.y >> normal.z;
                 normals.push_back(normal);
             }
+            // Vertex texutre coordinate.
             else if (type == "vt")
             {
                 TextureCoordinate texture_coordinate;
                 stream >> texture_coordinate.x >> texture_coordinate.y;
                 texture_coordinates.push_back(texture_coordinate);
             }
+            // Face.
             else if (type == "f")
             {
                 Index index;
@@ -97,6 +101,8 @@ namespace engine
                             break;
                         }
                     }
+
+                    // Ignore format characters.
                     if (stream.peek() == '/')
                     {
                         stream.ignore(1, '/');

@@ -37,7 +37,7 @@ namespace engine
 
 	void Texture::load(const std::string& path)
 	{
-		// load and generate the texture
+		// Load and generate the texture
 		int width, height, bpp;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &bpp, 4);
 		if (!data)

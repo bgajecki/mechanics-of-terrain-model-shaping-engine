@@ -76,14 +76,13 @@ namespace engine
 				GLint maxLength = 0;
 				glGetShaderiv(this->id, GL_INFO_LOG_LENGTH, &maxLength);
 
-				// The maxLength includes the NULL character
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(this->id, maxLength, &maxLength, &errorLog[0]);
 
-				// Print the error log in DEBUG mode
+				// Print the error log.
 				std::copy(errorLog.begin(), errorLog.end(), std::ostream_iterator<char>(std::cerr, ""));
 
-				this->clear(); // Don't leak the shader.
+				this->clear(); // Clear memory.
 			}
 		}
 	}

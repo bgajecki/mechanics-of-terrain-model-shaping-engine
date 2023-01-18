@@ -4,6 +4,7 @@
 #include <list>
 #include <algorithm>
 #include <functional>
+#include <unordered_map>
 #include "Shader.hpp"
 
 
@@ -94,11 +95,11 @@ namespace engine
 			* @param restOfParameters Rest of parameters passed to the uniform callback.
 			*/
 			template <typename UniformCallback, typename... RestOfParameters>
-			void createUniform(UniformCallback uniformCallback, const char* name, RestOfParameters... restOfParameters)
+			void createUniform(UniformCallback uniformCallback, const std::string& name, RestOfParameters... restOfParameters)
 			{
-				this->createUniforms.push_back([=]()
+				this->loadUniformsFunctions.push_back([this, uniformCallback, name, restOfParameters...]()
 				{
-					GLuint location = glGetUniformLocation(this->id, name);
+					GLint location = this->getUniformLocation(name);
 					uniformCallback(location, restOfParameters...);
 				});
 			}
@@ -119,6 +120,8 @@ namespace engine
 			*/
 			void checkLinkingStatus();
 
+			GLint getUniformLocation(const std::string& location);
+
 			/**
 			* @brief Program Id.
 			*/
@@ -129,7 +132,9 @@ namespace engine
 			*/
 			ShaderVector shaders;
 
-			std::vector<std::function<void()>> createUniforms;
+			std::vector<std::function<void()>> loadUniformsFunctions;
+
+			std::unordered_map <std::string, GLint> uniformLocation;
 		};
 		/**
 		* @brief List of programs.
